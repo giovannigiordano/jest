@@ -235,6 +235,10 @@ When using `babel-jest`, calls to `mock` will automatically be hoisted to the to
 One example when this is useful is when you want to mock a module differently within the same file:
 
 ```js
+// module
+export default () => 'module default'
+
+// test
 beforeEach(() => {
   jest.resetModules();
 });
@@ -253,6 +257,12 @@ test('moduleName 2', () => {
   });
   const moduleName = require('../moduleName');
   expect(moduleName()).toEqual(2);
+});
+
+test('moduleName 3', () => {
+  jest.unmock('../moduleName');
+  const moduleName = require('../moduleName');
+  expect(moduleName()).toEqual('module default');
 });
 ```
 
